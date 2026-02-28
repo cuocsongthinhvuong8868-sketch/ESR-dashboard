@@ -166,7 +166,7 @@ if mode == "A) Đo lường hiện tại":
     df_idx, base_pillars = fetch_and_calculate_core_data(start_date_str, end_date_str)
     if df_idx is not None:
         df_metrics, weights = calculate_ssi_dynamic(df_idx, base_pillars, bond_yield_input, ma_choice)
-        if df_metrics is not None:
+         if df_metrics is not None:
             last_ssi = df_metrics['SSI_Index'].iloc[-1]
             status = "SAFE" if last_ssi < 0.5 else ("WARNING" if last_ssi < 0.8 else "CRITICAL")
             color = "green" if status == "SAFE" else ("orange" if status == "WARNING" else "red")
@@ -269,3 +269,4 @@ else:
         
 
         st.plotly_chart(fig_bt, use_container_width=True)
+
