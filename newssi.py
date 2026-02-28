@@ -36,7 +36,7 @@ def fetch_and_calculate_core_data(start_date_str, end_date_str):
     progress_bar = st.progress(0)
     try:
         status_text.info(f"Đang tải VN30 Index từ {start_date_str} đến {end_date_str}...")
-        quote_idx = Quote(symbol='VN30', source='VCI')
+        quote_idx = Quote(symbol='VN30', source='KBS')
         df_idx = quote_idx.history(start=start_date_str, end=end_date_str, interval='1D')
         if df_idx is None or df_idx.empty:
             status_text.error("Không lấy được dữ liệu Index từ VCI.")
@@ -52,7 +52,7 @@ def fetch_and_calculate_core_data(start_date_str, end_date_str):
             status_text.info(f"Đang tải mã {symbol} ({i+1}/{total_stocks})...")
             progress_bar.progress((i + 1) / total_stocks)
             try:
-                quote = Quote(symbol=symbol, source='VCI')
+                quote = Quote(symbol=symbol, source='KBS')
                 df = quote.history(start=start_date_str, end=end_date_str, interval='1D')
                 if df is not None and not df.empty:
                     df.columns = df.columns.str.lower()
@@ -267,4 +267,5 @@ else:
         fig_bt.update_yaxes(title_text="SSI Index", secondary_y=False)
         fig_bt.update_yaxes(title_text="VN30 Points", secondary_y=True)
         
+
         st.plotly_chart(fig_bt, use_container_width=True)
