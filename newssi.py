@@ -160,8 +160,14 @@ ma_choice = st.sidebar.selectbox("Chọn chu kỳ MA cho VN30:", [20, 60, 125, 2
 if mode == "A) Đo lường hiện tại":
     st.title("📊 VN30 ESR Monitor")
     bond_yield_input = st.sidebar.number_input("Bond Yield hiện tại (%)", value=4.20, step=0.1) / 100
-    end_date_str = datetime.datetime.now().strftime('%Y-%m-%d')
-    start_date_str = (datetime.datetime.now() - datetime.timedelta(days=500)).strftime('%Y-%m-%d')
+    now = datetime.datetime.now()
+    if now.hour < 15:
+        end_date = now - datetime.timedelta(days=1)
+    else:
+        end_date = now
+        
+    end_date_str = end_date.strftime('%Y-%m-%d')
+    start_date_str = (end_date - datetime.timedelta(days=500)).strftime('%Y-%m-%d')
     
     df_idx, base_pillars = fetch_and_calculate_core_data(start_date_str, end_date_str)
     if df_idx is not None:
@@ -268,5 +274,6 @@ else:
         fig_bt.update_yaxes(title_text="VN30 Points", secondary_y=True)
         
         st.plotly_chart(fig_bt, use_container_width=True)
+
 
 
